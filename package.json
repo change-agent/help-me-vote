@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A project to help with voting",
   "main": "index.js",
+  "homepage": "https://change-agent.github.io/help-me-vote/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
