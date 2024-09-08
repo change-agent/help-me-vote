@@ -264,9 +264,6 @@ const MelbourneMayoralCalculator: React.FC = () => {
           </tbody>
         </table>
       </div>
-  
-
-      <br />
       <div className="source">
         <h2>📰 Source</h2>
         <a href="https://www.theage.com.au/national/victoria/from-bike-lanes-to-business-help-what-the-lord-mayor-candidates-promise-for-melbourne-20240821-p5k41u.html" 
@@ -274,7 +271,6 @@ const MelbourneMayoralCalculator: React.FC = () => {
           The Age: What the lord mayor candidates promise for Melbourne
         </a>
       </div>
-      <br />
       <div className="made-by">
         <h2>👨🏽‍💻 Creator</h2>
         <p> Dan Masters </p>
