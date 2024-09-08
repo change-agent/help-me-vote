@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import './styles.css';
 
 const candidates = {
@@ -152,6 +152,24 @@ const MelbourneMayoralCalculator: React.FC = () => {
     return Object.entries(totalScores).sort(([, a], [, b]) => b - a);
   }, [scores, priorities]);
 
+  const [showScrollButton, setShowScrollButton] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollButton(window.pageYOffset > 300);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   return (
     <div className="container">
       <h1>🗳️ Help Me Vote: Melbourne Mayoral Candidates 2024 ✔️</h1>
@@ -215,6 +233,13 @@ const MelbourneMayoralCalculator: React.FC = () => {
                   ))}
                 </ul>
               </div>
+            )}
+            {showScrollButton && (
+              <button className="scroll-to-top" onClick={scrollToTop} aria-label="Scroll to top">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 15l-6-6-6 6"/>
+                </svg>
+              </button>
             )}
           </div>
         ))}
