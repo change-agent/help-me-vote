@@ -14,74 +14,81 @@ const candidates = {
 const policyDetails: Record<keyof typeof candidates, string[]> = {
   "Nick Reece (Independent)": [
     "Will reveal donors 40 days after election. No donations from tobacco, gambling, or local developers.",
-    "Advocates for rent control and affordable housing.",
-    "Supports increased police presence in high-crime areas.",
-    "Proposes a new urban park to enhance green spaces.",
-    "Opposes the use of e-scooters on footpaths.",
-    "Advocates for expanding bike lanes across the city.",
-    "Plans to create more community events to boost local culture."
+    "Reduce pool admissions to $2, free children's swimming lessons.",
+    "Convert old office buildings into apartments.",
+    "Double security cameras, targeting hotspots.",
+    "Bulk-buy renewable electricity (MPower), emissions reduction plan.",
+    "Ban on hire e-scooters.",
+    "Policy not yet released, possible conflict with running mate who has opposed bike lanes",
+    "Install designer decorative lighting in 20 laneways."  
   ],
   "Arron Wood (Independent)": [
     "No commitment to real-time donation disclosure this time.",
-    "Proposes subsidies for first-time home buyers.",
-    "Supports community-based crime prevention programs.",
-    "Focuses on sustainability and renewable energy projects.",
-    "Supports e-scooters but with stricter regulations.",
-    "Opposes the removal of car lanes for bike lanes.",
-    "Plans to introduce new city-wide cultural festivals."
+    "Freeze rates for one year, review waste charge, freeze recreation centre fees until 2026.",
+    "No policies announced yet.",
+    "Expand designated graffiti sites, stricter penalties for graffiti.",
+    "No policies announced yet.",
+    "Require operators to install cameras and reduce speeds.",
+    "No policies announced yet.",
+    "Annual Christmas parade, European-inspired markets, Gingerbread Village return."
   ],
   "Roxane Ingleton (Greens)": [
-    "Discloses campaign donations in real-time.",
-    "Strong advocate for social housing and renter rights.",
-    "Opposes increased police funding, supports community solutions.",
-    "Champions aggressive climate action and urban greening.",
-    "Proposes to ban e-scooters from pedestrian areas.",
-    "Proposes a comprehensive bike lane network.",
-    "Plans to expand events promoting environmental awareness."
+    "Discloses campaign donations in real time.",
+    "Focus on cheaper sustainable energy. Rate freezes not seen as beneficial to most residents.",
+    "Mandate more public and affordable housing; 30% of new developments for affordable housing.",
+    "Criticises effectiveness of CCTV, prefers other safety measures.",
+    "Expand Power Melbourne, rehabilitate Moonee Ponds Creek, more green spaces.",
+    "Review the decision to ban, explore better regulatory measures.",
+    "Expand protected bike lanes network.",
+    "No policies announced yet."
   ],
   "Jamal Hakim (Independent)": [
-    "Discloses donations in real-time; no donations from property developers, gambling, or weapons companies.",
-    "Supports public housing projects and tenant protections.",
-    "Focuses on reducing crime through social programs.",
-    "Advocates for green spaces and environmental sustainability.",
-    "Proposes dedicated e-scooter lanes to reduce accidents.",
-    "Supports bike lane expansion and pedestrian-friendly initiatives.",
-    "Wants to increase funding for local arts and music events."
+    "Discloses donations in real time; no donations from property developers, gambling, or weapons companies.",
+    "No policies announced.",
+    "Redevelop public housing towers with transparency.",
+    "No policies announced.",
+    "More greening of Melbourne’s laneways.",
+    "Opposes the ban, focuses on behavioural change.",
+    "Supports bike lanes but calls for design improvements.",
+    "$10 million pledge for Diwali, Eid, and Hanukkah celebrations."
   ],
   "Anthony Koutoufides (Independent)": [
     "Self-funded campaign.",
-    "Supports incentives for new home constructions.",
-    "Supports tougher penalties for violent crimes.",
-    "Proposes more green spaces and cleaner streets.",
-    "Opposes e-scooter expansion, citing safety concerns.",
-    "Supports bike lanes but wants more car parking options.",
-    "Wants to create more sports-related events."
+    "Freeze rates for two years, advocate reducing land tax.",
+    "More affordable housing and quicker planning permits.",
+    "Increased police patrols.",
+    "No policies announced yet.",
+    "Allow hire e-scooters with appropriate measures.",
+    "Review and possibly remove some bike lanes to improve traffic.",
+    "No policies announced yet."
   ],
   "Phil Reed (Labor)": [
-    "Capping donations at $4000 over four years, restoring fairness in voting system.",
-    "Plans to build 10,000 affordable homes.",
-    "Supports funding for police to ensure community safety.",
-    "Focuses on renewable energy projects.",
-    "Supports e-scooter usage with proper safety regulations.",
-    "Proposes a balanced approach to bike lanes and car traffic.",
-    "Plans to host international events to attract tourism."
+    "Capping donations at $4000 over four years; restoring fairness in voting system.",
+    "Focus on maintaining essential council services like libraries, health, and sports facilities, ensuring they remain publicly managed to prevent price-gouging.",
+    "Work with state government on diverse, affordable housing; audit council land use.",
+    "Better lighting and safe zones in pedestrian corridors.",
+    "Focus on connected green spaces, divert resources from major projects like the Greenline.",
+    "No plans to reintroduce hire e-scooters after the ban.",
+    "Work with safety agencies, traders, and residents to ensure objectives are met.",
+    "Develop incentive programs to showcase and support local businesses."
   ],
   "Gary Morgan (Independent)": [
     "Self-funding his campaign, running for lord mayor for the seventh time.",
-    "Supports market-driven housing solutions.",
-    "Wants to introduce curfews in high-crime areas.",
-    "Advocates for tree-planting initiatives in urban areas.",
-    "Proposes limited e-scooter access in the CBD.",
-    "Opposes bike lanes that reduce car lanes.",
-    "Plans to increase business-oriented events."
-  ]
+    "No specific policies announced yet.",
+    "Advocates for demolishing high-rise public housing towers and replacing them with 'decent houses.'",
+    "Criticises current city safety as inadequate, advocates for more protective safety officers instead of new parking officers.",
+    "Supports the creation of more parks and the expansion of renewable and solar power across the city.",
+    "Supports the ban on hire e-scooters, considering the previous trial a public policy failure.",
+    "Believes Collins Street bike lanes are dangerous and need overhauling; supports better mobility planning like the bike lanes on Exhibition and William Streets.",
+    "Advocates for more Australian artists performing in Melbourne, and fewer international artists such as Taylor Swift."
+  ],
 };
 
 const policyAreas = [
   "Integrity",
   "Cost of Living",
   "Housing",
-  "Crime and Safety",
+  "Crime & Safety",
   "Environment",
   "E-scooters",
   "Bike Lanes",
@@ -110,7 +117,7 @@ const MelbourneMayoralCalculator: React.FC = () => {
     setScores(newScores);
   };
 
-    const togglePolicy = (index: number) => {
+  const togglePolicy = (index: number) => {
     const newExpandedPolicies = [...expandedPolicies];
     newExpandedPolicies[index] = !newExpandedPolicies[index];
     setExpandedPolicies(newExpandedPolicies);
@@ -142,86 +149,106 @@ const MelbourneMayoralCalculator: React.FC = () => {
       });
     });
 
-    return totalScores;
+    return Object.entries(totalScores).sort(([, a], [, b]) => b - a);
   }, [scores, priorities]);
 
   return (
     <div className="container">
-      <h1>Help Me Vote: Melbourne Mayoral Candidates 2024</h1>
-      <h2>How to Use This Tool</h2>
-      <ul>
-        <li>1. Set a Priority Score (0-10) for each policy area based on its importance to you.</li>
-        <li>2. Rate each candidate's policy (0-10) based on how well it aligns with your views.</li>
-        <li>3. Click on a policy area to view detailed candidate policies.</li>
-        <li>4. The tool will calculate a total score for each candidate based on your inputs.</li>
-      </ul>
-      <button onClick={toggleAllPolicies}>{allExpanded ? "Collapse All" : "Expand All"}</button>
-      <table>
-        <thead>
-          <tr>
-            <th>Policy Area</th>
-            <th>Priority Score</th>
-            {Object.keys(candidates).map((candidate, index) => (
-              <th key={index}>{candidate}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {policyAreas.map((policyArea, policyIndex) => (
-            <React.Fragment key={policyArea}>
-              <tr>
-                <td onClick={() => togglePolicy(policyIndex)} style={{ cursor: 'pointer' }}>
-                  {expandedPolicies[policyIndex] ? `- ${policyArea}` : `+ ${policyArea}`}
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    value={priorities[policyIndex] !== undefined ? priorities[policyIndex] : ''}
-                    onChange={(e) => handlePriorityChange(policyIndex, e.target.value)}
-                    className={priorities[policyIndex] === undefined ? 'error' : ''}
-                  />
-                </td>
-                {Object.keys(candidates).map((candidate, candidateIndex) => (
-                  <td key={candidateIndex}>
+      <h1>🗳️ Help Me Vote: Melbourne Mayoral Candidates 2024 ✔️ </h1>
+      <div className="how-to-use" style={{ backgroundColor: '#f0f0f0', padding: '15px', borderRadius: '8px' }}>
+        <h2>👉 How to Use</h2>
+        <ul>
+          <li>1. Set a Priority Score (0-10) for each policy area based on its importance to you.</li>
+          <li>2. Click on a policy area to view detailed candidate policies.</li>
+          <li>3. Rate each candidate's policy (0-10) based on how well it aligns with your views.</li>
+          <li>4. The tool will calculate a total score for each candidate based on your inputs & rank them accordingly.</li>
+        </ul>
+      </div>
+      <button onClick={toggleAllPolicies} className="expand-collapse-btn">
+        {allExpanded ? "Collapse All" : "Expand All"}
+      </button>
+      <div className="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Policy Area</th>
+              <th>Priority Score</th>
+              {Object.keys(candidates).map((candidate, index) => (
+                <th key={index}>{candidate}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {policyAreas.map((policyArea, policyIndex) => (
+              <React.Fragment key={policyArea}>
+                <tr>
+                  <td onClick={() => togglePolicy(policyIndex)} style={{ cursor: 'pointer', color: 'blue' }}>
+                    {expandedPolicies[policyIndex] ? `- ${policyArea}` : `+ ${policyArea}`}
+                  </td>
+                  <td>
                     <input
                       type="number"
-                      value={scores[policyIndex][candidateIndex] !== undefined ? scores[policyIndex][candidateIndex] : ''}
-                      onChange={(e) => handleScoreChange(policyIndex, candidateIndex, e.target.value)}
-                      className={scores[policyIndex][candidateIndex] === undefined ? 'error' : ''}
+                      value={priorities[policyIndex] !== undefined ? priorities[policyIndex] : ''}
+                      onChange={(e) => handlePriorityChange(policyIndex, e.target.value)}
+                      className={priorities[policyIndex] === undefined ? 'error' : ''}
                     />
                   </td>
-                ))}
-              </tr>
-              {expandedPolicies[policyIndex] && (
-                <tr>
-                  <td colSpan={Object.keys(candidates).length + 2}>
-                    <div className="expanded-policy">
-                      <ul>
-                        {Object.keys
-
-(candidates).map((candidate, index) => (
-                          <li key={index}>
-                            <strong>{candidate}:</strong> {policyDetails[candidate as CandidateNames][policyIndex]}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </td>
+                  {Object.keys(candidates).map((candidate, candidateIndex) => (
+                    <td key={candidateIndex}>
+                      <input
+                        type="number"
+                        value={scores[policyIndex][candidateIndex] !== undefined ? scores[policyIndex][candidateIndex] : ''}
+                        onChange={(e) => handleScoreChange(policyIndex, candidateIndex, e.target.value)}
+                        className={scores[policyIndex][candidateIndex] === undefined ? 'error' : ''}
+                      />
+                    </td>
+                  ))}
                 </tr>
-              )}
-            </React.Fragment>
-          ))}
-        </tbody>
-      </table>
+                {expandedPolicies[policyIndex] && (
+                  <tr>
+                    <td colSpan={Object.keys(candidates).length + 2}>
+                      <div className="expanded-policy">
+                        <ul>
+                          {Object.keys(candidates).map((candidate, index) => (
+                            <li key={index}>
+                              <strong>{candidate}:</strong> {policyDetails[candidate as CandidateNames][policyIndex]}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </React.Fragment>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <div className="results">
-              <h2>Results</h2>
+        <h2>🏆 Results</h2>
         <ul>
-          {Object.entries(calculateTotalScores).map(([candidate, score], index) => (
+          {calculateTotalScores.map(([candidate, score], index) => (
             <li key={index}>
               {index + 1}. {candidate} - Score: {score}
             </li>
           ))}
         </ul>
+      </div>
+      <br />
+      <div className="source">
+        <h2>📰 Source</h2>
+        <a href="https://www.theage.com.au/national/victoria/from-bike-lanes-to-business-help-what-the-lord-mayor-candidates-promise-for-melbourne-20240821-p5k41u.html" 
+           target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+          The Age: What the lord mayor candidates promise for Melbourne
+        </a>
+      </div>
+      <br />
+      <div className="made-by">
+        <h2>👨🏽‍💻 Creator</h2>
+        <p> Dan Masters </p>
+        • <a href="https://ohmdee.com" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Blog</a>
+        <p> • <a href="https://twitter.com/OhMDee" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Twitter</a> </p> 
+        <p> • <a href="https://github.com/change-agent/help-me-vote" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">GitHub Project</a> </p>
       </div>
     </div>
   );
