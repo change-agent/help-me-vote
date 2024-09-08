@@ -91,28 +91,35 @@ const policyAreas = [
 type CandidateNames = keyof typeof candidates;
 
 const MelbourneMayoralCalculator: React.FC = () => {
-  const [priorities, setPriorities] = useState<number[]>(Array(policyAreas.length).fill(0));
-  const [scores, setScores] = useState<number[][]>(Array(policyAreas.length).fill(0).map(() => Array(Object.keys(candidates).length).fill(0)));
+  const [priorities, setPriorities] = useState<(number | undefined)[]>(Array(policyAreas.length).fill(undefined));
+  const [scores, setScores] = useState<(number | undefined)[][]>(Array(policyAreas.length).fill(undefined).map(() => Array(Object.keys(candidates).length).fill(undefined)));
   const [expandedPolicies, setExpandedPolicies] = useState<boolean[]>(Array(policyAreas.length).fill(false));
+  const [allExpanded, setAllExpanded] = useState<boolean>(false);
 
   const handlePriorityChange = (index: number, newValue: string) => {
-    const parsedValue = Math.max(0, parseInt(newValue) || 0);
+    const parsedValue = parseInt(newValue);
     const newPriorities = [...priorities];
-    newPriorities[index] = parsedValue;
+    newPriorities[index] = isNaN(parsedValue) ? undefined : parsedValue;
     setPriorities(newPriorities);
   };
 
   const handleScoreChange = (policyIndex: number, candidateIndex: number, newScore: string) => {
-    const parsedScore = parseInt(newScore) || 0;
+    const parsedScore = parseInt(newScore);
     const newScores = [...scores];
-    newScores[policyIndex][candidateIndex] = parsedScore;
+    newScores[policyIndex][candidateIndex] = isNaN(parsedScore) ? undefined : parsedScore;
     setScores(newScores);
   };
 
-  const togglePolicy = (index: number) => {
+    const togglePolicy = (index: number) => {
     const newExpandedPolicies = [...expandedPolicies];
     newExpandedPolicies[index] = !newExpandedPolicies[index];
     setExpandedPolicies(newExpandedPolicies);
+  };
+
+  const toggleAllPolicies = () => {
+    const newExpandedPolicies = Array(policyAreas.length).fill(!allExpanded);
+    setExpandedPolicies(newExpandedPolicies);
+    setAllExpanded(!allExpanded);
   };
 
   const calculateTotalScores = useMemo(() => {
@@ -128,8 +135,10 @@ const MelbourneMayoralCalculator: React.FC = () => {
 
     scores.forEach((policyScores, policyIndex) => {
       policyScores.forEach((score, candidateIndex) => {
-        const candidateName = Object.keys(candidates)[candidateIndex] as CandidateNames;
-        totalScores[candidateName] += score * (priorities[policyIndex] || 0);
+        if (score !== undefined && priorities[policyIndex] !== undefined) {
+          const candidateName = Object.keys(candidates)[candidateIndex] as CandidateNames;
+          totalScores[candidateName] += score * priorities[policyIndex];
+        }
       });
     });
 
@@ -142,11 +151,11 @@ const MelbourneMayoralCalculator: React.FC = () => {
       <h2>How to Use This Tool</h2>
       <ul>
         <li>1. Set a Priority Score (0-10) for each policy area based on its importance to you.</li>
-        <li>2. Click on a policy area to view detailed candidate policies.</li>
-        <li>3. Rate each candidate's policy (0-10) based on how well it aligns with your views.</li>
+        <li>2. Rate each candidate's policy (0-10) based on how well it aligns with your views.</li>
+        <li>3. Click on a policy area to view detailed candidate policies.</li>
         <li>4. The tool will calculate a total score for each candidate based on your inputs.</li>
       </ul>
-      <button onClick={() => setExpandedPolicies(Array(policyAreas.length).fill(true))}>Expand All</button>
+      <button onClick={toggleAllPolicies}>{allExpanded ? "Collapse All" : "Expand All"}</button>
       <table>
         <thead>
           <tr>
@@ -159,34 +168,38 @@ const MelbourneMayoralCalculator: React.FC = () => {
         </thead>
         <tbody>
           {policyAreas.map((policyArea, policyIndex) => (
-            <>
-              <tr key={policyArea}>
+            <React.Fragment key={policyArea}>
+              <tr>
                 <td onClick={() => togglePolicy(policyIndex)} style={{ cursor: 'pointer' }}>
                   {expandedPolicies[policyIndex] ? `- ${policyArea}` : `+ ${policyArea}`}
                 </td>
                 <td>
                   <input
                     type="number"
-                    value={priorities[policyIndex]}
+                    value={priorities[policyIndex] !== undefined ? priorities[policyIndex] : ''}
                     onChange={(e) => handlePriorityChange(policyIndex, e.target.value)}
+                    className={priorities[policyIndex] === undefined ? 'error' : ''}
                   />
                 </td>
                 {Object.keys(candidates).map((candidate, candidateIndex) => (
                   <td key={candidateIndex}>
                     <input
                       type="number"
-                      value={scores[policyIndex][candidateIndex]}
+                      value={scores[policyIndex][candidateIndex] !== undefined ? scores[policyIndex][candidateIndex] : ''}
                       onChange={(e) => handleScoreChange(policyIndex, candidateIndex, e.target.value)}
+                      className={scores[policyIndex][candidateIndex] === undefined ? 'error' : ''}
                     />
                   </td>
                 ))}
               </tr>
               {expandedPolicies[policyIndex] && (
-                <tr key={`${policyArea}-details`}>
+                <tr>
                   <td colSpan={Object.keys(candidates).length + 2}>
                     <div className="expanded-policy">
                       <ul>
-                        {Object.keys(candidates).map((candidate, index) => (
+                        {Object.keys
+
+(candidates).map((candidate, index) => (
                           <li key={index}>
                             <strong>{candidate}:</strong> {policyDetails[candidate as CandidateNames][policyIndex]}
                           </li>
@@ -196,12 +209,12 @@ const MelbourneMayoralCalculator: React.FC = () => {
                   </td>
                 </tr>
               )}
-            </>
+            </React.Fragment>
           ))}
         </tbody>
       </table>
       <div className="results">
-        <h2>Results</h2>
+              <h2>Results</h2>
         <ul>
           {Object.entries(calculateTotalScores).map(([candidate, score], index) => (
             <li key={index}>
@@ -209,19 +222,6 @@ const MelbourneMayoralCalculator: React.FC = () => {
             </li>
           ))}
         </ul>
-      </div>
-      <footer>
-        <p>Source: <a href="https://www.theage.com.au/national/victoria/from-bike-lanes-to-business-help-what-the-lord-mayor-candidates-promise-for-melbourne-20240821-p5k41u.html" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-          The Age: What the lord mayor candidates promise for Melbourne </a>
-        </p>
-      </footer>
-
-      <div className="made-by">
-        <h2>Made by</h2>
-        <p>Dan Masters</p>
-        <a href="https://ohmdee.com" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">ohmdee.com</a>
-        <br />
-        <a href="https://twitter.com/OhMDee" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">@OhMDee</a>
       </div>
     </div>
   );

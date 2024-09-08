@@ -46,7 +46,7 @@ li:last-child {
 }
 
 strong {
-    color: #007BFF;
+    font-weight: bold;
 }
 
 button {
@@ -71,11 +71,17 @@ input[type="number"] {
     border-radius: 5px;
 }
 
+input[type="number"].error {
+    background-color: #ffe5e5; /* Light red background for empty fields */
+}
+
 .expanded-policy {
     background-color: #f8f9fa;
     padding: 10px;
     border-radius: 5px;
     margin-top: 10px;
+    text-align: left;
+    overflow-wrap: break-word; /* Ensure text doesn't overflow */
 }
 
 .expanded-policy ul {
@@ -85,6 +91,7 @@ input[type="number"] {
 .expanded-policy li {
     border: none;
     padding: 5px 0;
+    text-align: left;
 }
 
 table {
@@ -122,4 +129,20 @@ footer a {
 
 footer a:hover {
     text-decoration: underline;
+}
+
+@media screen and (max-width: 600px) {
+    .expanded-policy ul {
+        padding-left: 10px;
+    }
+
+    table, th, td {
+        font-size: 14px;
+        padding: 5px;
+    }
+
+    input[type="number"] {
+        width: 40px;
+        padding: 3px;
+    }
 }
