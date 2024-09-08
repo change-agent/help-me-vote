@@ -1,6 +1,6 @@
 {
   "name": "help-me-vote",
-  "version": "1.0.0",
+  "version": "2.1",
   "description": "A project to help with voting",
   "main": "index.js",
   "homepage": "https://change-agent.github.io/help-me-vote/",
