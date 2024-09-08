@@ -12,7 +12,7 @@ const candidates = {
 };
 
 const policyDetails: Record<keyof typeof candidates, string[]> = {
-  "Nick Reece (Independent)": [
+    "Nick Reece (Independent)": [
     "Will reveal donors 40 days after election. No donations from tobacco, gambling, or local developers.",
     "Reduce pool admissions to $2, free children's swimming lessons.",
     "Convert old office buildings into apartments.",
@@ -88,7 +88,7 @@ const policyAreas = [
   "Integrity",
   "Cost of Living",
   "Housing",
-  "Crime & Safety",
+  "Crime and Safety",
   "Environment",
   "E-scooters",
   "Bike Lanes",
@@ -154,86 +154,93 @@ const MelbourneMayoralCalculator: React.FC = () => {
 
   return (
     <div className="container">
-      <h1>🗳️ Help Me Vote: Melbourne Mayoral Candidates 2024 ✔️ </h1>
-      <div className="how-to-use" style={{ backgroundColor: '#f0f0f0', padding: '15px', borderRadius: '8px' }}>
-        <h2>👉 How to Use</h2>
+      <h1>🗳️ Help Me Vote: Melbourne Mayoral Candidates 2024 ✔️</h1>
+      <div className="how-to-use">
+        <h2>❓ How to Use</h2>
         <ul>
           <li>1. Set a Priority Score (0-10) for each policy area based on its importance to you.</li>
-          <li>2. Click on a policy area to view detailed candidate policies.</li>
-          <li>3. Rate each candidate's policy (0-10) based on how well it aligns with your views.</li>
-          <li>4. The tool will calculate a total score for each candidate based on your inputs & rank them accordingly.</li>
+          <li>2. Rate each candidate's policy (0-10) based on how well it aligns with your views.</li>
+          <li>3. Click on a policy area to view detailed candidate policies.</li>
+          <li>4. The tool will calculate a total score for each candidate based on your inputs.</li>
         </ul>
       </div>
-      <button onClick={toggleAllPolicies} className="expand-collapse-btn">
-        {allExpanded ? "Collapse All" : "Expand All"}
-      </button>
+
+      <div className="expand-all-container">
+        <h2>📝 Policies</h2>
+        <button onClick={toggleAllPolicies} className="expand-collapse-btn">
+          {allExpanded ? "Collapse All" : "Expand All"}
+        </button>
+      </div>
+
       <div className="table-container">
-        <table>
+        <div className="policy-header">
+          <div className="policy-name">Policy Area</div>
+          <div className="priority-score">Priority Score</div>
+          {Object.keys(candidates).map((candidate) => (
+            <div key={candidate} className="candidate-name">{candidate}</div>
+          ))}
+        </div>
+        {policyAreas.map((policyArea, policyIndex) => (
+          <div key={policyArea} className="policy-row">
+            <div className="policy-name" onClick={() => togglePolicy(policyIndex)}>
+              {expandedPolicies[policyIndex] ? `- ${policyArea}` : `+ ${policyArea}`}
+            </div>
+            <div className="priority-score">
+              <label className="mobile-only">Priority Score</label>
+              <input
+                type="number"
+                value={priorities[policyIndex] !== undefined ? priorities[policyIndex] : ''}
+                onChange={(e) => handlePriorityChange(policyIndex, e.target.value)}
+                className={priorities[policyIndex] === undefined ? 'error' : ''}
+              />
+            </div>
+            {Object.keys(candidates).map((candidate, candidateIndex) => (
+              <div key={candidateIndex} className="candidate-score">
+                <label className="mobile-only">{candidate}</label>
+                <input
+                  type="number"
+                  value={scores[policyIndex][candidateIndex] !== undefined ? scores[policyIndex][candidateIndex] : ''}
+                  onChange={(e) => handleScoreChange(policyIndex, candidateIndex, e.target.value)}
+                  className={scores[policyIndex][candidateIndex] === undefined ? 'error' : ''}
+                />
+              </div>
+            ))}
+            {expandedPolicies[policyIndex] && (
+              <div className="expanded-policy">
+                <ul>
+                  {Object.keys(candidates).map((candidate, index) => (
+                    <li key={index}>
+                      <strong>{candidate}:</strong> {policyDetails[candidate as keyof typeof candidates][policyIndex]}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      
+      <div className="results">
+        <h2>🏆 Results</h2>
+        <table className="results-table">
           <thead>
             <tr>
-              <th>Policy Area</th>
-              <th>Priority Score</th>
-              {Object.keys(candidates).map((candidate, index) => (
-                <th key={index}>{candidate}</th>
-              ))}
+              <th>Candidate</th>
+              <th>Score</th>
             </tr>
           </thead>
           <tbody>
-            {policyAreas.map((policyArea, policyIndex) => (
-              <React.Fragment key={policyArea}>
-                <tr>
-                  <td onClick={() => togglePolicy(policyIndex)} style={{ cursor: 'pointer', color: 'blue' }}>
-                    {expandedPolicies[policyIndex] ? `- ${policyArea}` : `+ ${policyArea}`}
-                  </td>
-                  <td>
-                    <input
-                      type="number"
-                      value={priorities[policyIndex] !== undefined ? priorities[policyIndex] : ''}
-                      onChange={(e) => handlePriorityChange(policyIndex, e.target.value)}
-                      className={priorities[policyIndex] === undefined ? 'error' : ''}
-                    />
-                  </td>
-                  {Object.keys(candidates).map((candidate, candidateIndex) => (
-                    <td key={candidateIndex}>
-                      <input
-                        type="number"
-                        value={scores[policyIndex][candidateIndex] !== undefined ? scores[policyIndex][candidateIndex] : ''}
-                        onChange={(e) => handleScoreChange(policyIndex, candidateIndex, e.target.value)}
-                        className={scores[policyIndex][candidateIndex] === undefined ? 'error' : ''}
-                      />
-                    </td>
-                  ))}
-                </tr>
-                {expandedPolicies[policyIndex] && (
-                  <tr>
-                    <td colSpan={Object.keys(candidates).length + 2}>
-                      <div className="expanded-policy">
-                        <ul>
-                          {Object.keys(candidates).map((candidate, index) => (
-                            <li key={index}>
-                              <strong>{candidate}:</strong> {policyDetails[candidate as CandidateNames][policyIndex]}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </td>
-                  </tr>
-                )}
-              </React.Fragment>
+            {calculateTotalScores.map(([candidate, score], index) => (
+              <tr key={index}>
+                <td>{index + 1}. {candidate}</td>
+                <td>{score}</td>
+              </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <div className="results">
-        <h2>🏆 Results</h2>
-        <ul>
-          {calculateTotalScores.map(([candidate, score], index) => (
-            <li key={index}>
-              {index + 1}. {candidate} - Score: {score}
-            </li>
-          ))}
-        </ul>
-      </div>
+  
+
       <br />
       <div className="source">
         <h2>📰 Source</h2>
