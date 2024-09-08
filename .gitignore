@@ -1,3 +1,22 @@
+# Ignore build directory
+build/
+
+# Ignore node_modules
 node_modules/
+
+# Ignore log files and output
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore TypeScript cache
+*.tsbuildinfo
+
+# Ignore service worker related files generated during build
+service-worker.js
+precache-manifest.*.js
+asset-manifest.json
+
+# Ignore environment variables and DS_STORE files
 .env
 .DS_Store
