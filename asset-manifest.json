@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.d709b6bf.chunk.css",
+    "main.js": "/static/js/main.b3d69341.chunk.js",
+    "main.js.map": "/static/js/main.b3d69341.chunk.js.map",
+    "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
+    "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
+    "static/js/2.41d23a0f.chunk.js": "/static/js/2.41d23a0f.chunk.js",
+    "static/js/2.41d23a0f.chunk.js.map": "/static/js/2.41d23a0f.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.d574a37091e2eecf4f826f418b3611b2.js": "/precache-manifest.d574a37091e2eecf4f826f418b3611b2.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.d709b6bf.chunk.css.map": "/static/css/main.d709b6bf.chunk.css.map",
+    "static/media/VoteSmartLogo.9f8b140f.svg": "/static/media/VoteSmartLogo.9f8b140f.svg"
+  }
+}
