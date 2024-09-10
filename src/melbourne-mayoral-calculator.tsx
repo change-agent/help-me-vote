@@ -312,26 +312,26 @@ const MelbourneMayoralCalculator: React.FC = () => {
         </table>
       </div>
       <div className="source">
-        <h2><span role="img" aria-label="Newspaper">📰</span> Source</h2>
-        <a href="https://www.theage.com.au/national/victoria/from-bike-lanes-to-business-help-what-the-lord-mayor-candidates-promise-for-melbourne-20240821-p5k41u.html" 
-           target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-          The Age: What the lord mayor candidates promise for Melbourne
-        </a>
-        <a href="https://www.theage.com.au/politics/victoria/voting-donations-reform-will-make-for-better-council-elections-20240829-p5k6ba.html" 
-           target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-          The Age: Voting, donations reform will make for better council elections
-        </a>
+        <h2><span role="img" aria-label="Newspaper">📰</span> Sources</h2>
+        <ul>
+          <li> <a href="https://www.theage.com.au/national/victoria/from-bike-lanes-to-business-help-what-the-lord-mayor-candidates-promise-for-melbourne-20240821-p5k41u.html"
+           target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline"> The Age: What the lord mayor candidates promise for Melbourne </a> </li> 
+          <li> <a href="https://www.theage.com.au/politics/victoria/voting-donations-reform-will-make-for-better-council-elections-20240829-p5k6ba.html" 
+           target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline"> The Age: Voting, donations reform will make for better council elections </a> </li>
+        </ul>
       </div>
       <div className="about">
         <h2><span role="img" aria-label="Information">ℹ️</span> About </h2>
-        <p> A few fellow residents asked me for voting advice, but I realised my values might not align with theirs. So instead of just telling them who to vote for, I spun up this tool in less than 6 hours to help them make their own informed decisions.</p>
+        <p> A few fellow residents asked me for voting advice, but I realised my values might not align with theirs. Instead of just telling them who to vote for, I spun up this tool in less than 6 hours to help them make their own informed decisions.</p>
       </div>
       <div className="made-by">
         <h2><span role="img" aria-label="Man technologist">👨🏽‍💻</span> Creator</h2>
-        <p> Dan Masters </p>
-        • <a href="https://ohmdee.com" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Blog</a>
-        <p> • <a href="https://twitter.com/OhMDee" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Twitter</a> </p> 
-        <p> • <a href="https://github.com/change-agent/help-me-vote" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">GitHub Project</a> </p>
+        <p> Follow Dan Masters here: </p>
+      <ul>
+        <li> <a href="https://ohmdee.com" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline"> Blog </a> </li>
+        <li> <a href="https://twitter.com/OhMDee" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline"> Twitter </a> </li>
+        <li> <a href="https://github.com/change-agent/help-me-vote" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline"> GitHub Project </a> </li>
+    </ul>
       </div>
     </div>
   );
