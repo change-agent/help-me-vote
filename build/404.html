@@ -1,6 +1,6 @@
 <script>
-  var target = location.pathname.replace('/help-me-vote', '');
+  var target = location.pathname;
   if (!location.search && !location.hash && target !== '/') {
-    location.replace('/help-me-vote' + target);
+    location.replace(target);
   }
 </script>
