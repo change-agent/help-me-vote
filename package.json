@@ -1,9 +1,9 @@
 {
   "name": "help-me-vote",
-  "version": "2.1",
+  "version": "2.2",
   "description": "A project to help with voting",
   "main": "index.js",
-  "homepage": "https://change-agent.github.io/help-me-vote/",
+  "homepage": "https://votesmart2024.melbourne",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
