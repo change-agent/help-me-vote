@@ -1,4 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { initGA, logPageView } from './analytics';
+import { ReactComponent as VoteSmartLogo } from './assets/VoteSmartLogo.svg';
 import './styles.css';
 
 const candidates = {
@@ -8,7 +10,8 @@ const candidates = {
   "Jamal Hakim (Independent)": [],
   "Anthony Koutoufides (Independent)": [],
   "Phil Reed (Labor)": [],
-  "Gary Morgan (Independent)": []
+  "Gary Morgan (Independent)": [],
+  "Mariam Riza (Liberal)": [],
 };
 
 const policyDetails: Record<keyof typeof candidates, string[]> = {
@@ -54,7 +57,7 @@ const policyDetails: Record<keyof typeof candidates, string[]> = {
   ],
   "Anthony Koutoufides (Independent)": [
     "Self-funded campaign.",
-    "Freeze rates for two years, advocate reducing land tax.",
+    "Freeze rates for two years, advocate reducing land tax. Advocate to force CBD-based employees back into the office for four days/week. Free coffee for CBD workers on Mondays for a month. One-off grants of ≤$5000 to ≤1000 businesses that sign a new CBD lease next year.",
     "More affordable housing and quicker planning permits.",
     "Increased police patrols.",
     "No policies announced yet.",
@@ -82,6 +85,16 @@ const policyDetails: Record<keyof typeof candidates, string[]> = {
     "Believes Collins Street bike lanes are dangerous and need overhauling; supports better mobility planning like the bike lanes on Exhibition and William Streets.",
     "Advocates for more Australian artists performing in Melbourne, and fewer international artists such as Taylor Swift."
   ],
+  "Mariam Riza (Liberal)": [
+    "No policies announced yet.",
+    "No policies announced yet.",
+    "No policies announced yet.",
+    "No policies announced yet.",
+    "No policies announced yet.",
+    "No policies announced yet.",
+    "Scrap bike lines as they cause traffic bottlenecks. Would consult on whether to replace with parking or traffic lanes.",
+    "No policies announced yet.",
+  ],
 };
 
 const policyAreas = [
@@ -98,6 +111,11 @@ const policyAreas = [
 type CandidateNames = keyof typeof candidates;
 
 const MelbourneMayoralCalculator: React.FC = () => {
+  useEffect(() => {
+    initGA();         // Initialize Google Analytics
+    logPageView();    // Log the first page view
+  }, []);
+  
   const [priorities, setPriorities] = useState<(number | undefined)[]>(Array(policyAreas.length).fill(undefined));
   const [scores, setScores] = useState<(number | undefined)[][]>(Array(policyAreas.length).fill(undefined).map(() => Array(Object.keys(candidates).length).fill(undefined)));
   const [expandedPolicies, setExpandedPolicies] = useState<boolean[]>(Array(policyAreas.length).fill(false));
@@ -137,7 +155,8 @@ const MelbourneMayoralCalculator: React.FC = () => {
       "Jamal Hakim (Independent)": 0,
       "Anthony Koutoufides (Independent)": 0,
       "Phil Reed (Labor)": 0,
-      "Gary Morgan (Independent)": 0
+      "Gary Morgan (Independent)": 0,
+      "Mariam Riza (Liberal)": 0,
     };
 
     scores.forEach((policyScores, policyIndex) => {
@@ -163,6 +182,27 @@ const MelbourneMayoralCalculator: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  document.addEventListener("DOMContentLoaded", function() {
+    function updateSvgAspectRatio() {
+        const svgElement = document.querySelector('.header-svg');
+
+        // Null check to prevent TypeScript error
+        if (svgElement !== null) {
+            if (window.innerWidth <= 768) {
+                svgElement.setAttribute("preserveAspectRatio", "xMidYMid slice");
+            } else {
+                svgElement.setAttribute("preserveAspectRatio", "xMidYMid meet");
+            }
+        }
+    }
+
+    // Initial check
+    updateSvgAspectRatio();
+
+    // Update on resize
+    window.addEventListener("resize", updateSvgAspectRatio);
+  });
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -172,19 +212,24 @@ const MelbourneMayoralCalculator: React.FC = () => {
 
   return (
     <div className="container">
-      <h1>🗳️ Help Me Vote: Melbourne Mayoral Candidates 2024 ✔️</h1>
+      <header className="site-header">
+        <VoteSmartLogo className="header-svg" />
+      </header>
+      <h1>
+        <span role="img" aria-label="Ballot box">🗳️</span> Your Voting Guide to the 2024 Melbourne Mayoral Election
+      </h1>
       <div className="how-to-use">
-        <h2>❓ How to Use</h2>
+        <h2><span role="img" aria-label="Question mark">❓</span> How to Use</h2>
         <ul>
-          <li>1. Set a Priority Score (0-10) for each policy area based on its importance to you.</li>
-          <li>2. Rate each candidate's policy (0-10) based on how well it aligns with your views.</li>
-          <li>3. Click on a policy area to view detailed candidate policies.</li>
-          <li>4. The tool will calculate a total score for each candidate based on your inputs.</li>
+          <li><strong>1. Prioritise Your Issues</strong>: Assign a Priority Score weight (0-10) to each policy area that matters most to you.</li>
+          <li><strong>2. Rate Candidate Policies</strong>: Score each candidate's policy (0-10) based on how closely it aligns with your personal views.</li>
+          <li><strong>3. Explore Detailed Policies</strong>: Click on any policy area to dive deeper into each candidate's stance and proposals.</li>
+          <li><strong>4. Get Your Best Match</strong>: The tool continually calculates a ranking score for each candidate, helping you identify your ideal match based on your input.</li>
         </ul>
       </div>
 
       <div className="expand-all-container">
-        <h2>📝 Policies</h2>
+        <h2><span role="img" aria-label="Memo">📝</span> Policies</h2>
         <button onClick={toggleAllPolicies} className="expand-collapse-btn">
           {allExpanded ? "Collapse All" : "Expand All"}
         </button>
@@ -192,10 +237,10 @@ const MelbourneMayoralCalculator: React.FC = () => {
 
       <div className="table-container">
         <div className="policy-header">
-          <div className="policy-name">Policy Area</div>
-          <div className="priority-score">Priority Score</div>
+          <div>Policy Area</div>
+          <div>Priority Score</div>
           {Object.keys(candidates).map((candidate) => (
-            <div key={candidate} className="candidate-name">{candidate}</div>
+            <div key={candidate}>{candidate}</div>
           ))}
         </div>
         {policyAreas.map((policyArea, policyIndex) => (
@@ -228,25 +273,27 @@ const MelbourneMayoralCalculator: React.FC = () => {
                 <ul>
                   {Object.keys(candidates).map((candidate, index) => (
                     <li key={index}>
-                      <strong>{candidate}:</strong> {policyDetails[candidate as keyof typeof candidates][policyIndex]}
+                      <strong>{candidate}:</strong> {policyDetails[candidate as keyof typeof policyDetails][policyIndex]}
                     </li>
                   ))}
                 </ul>
               </div>
             )}
-            {showScrollButton && (
-              <button className="scroll-to-top" onClick={scrollToTop} aria-label="Scroll to top">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M18 15l-6-6-6 6"/>
-                </svg>
-              </button>
-            )}
           </div>
+
         ))}
       </div>
-      
+
+      {showScrollButton && (
+          <button className="scroll-to-top" onClick={scrollToTop} aria-label="Scroll to top">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 15l-6-6-6 6"/>
+            </svg>
+          </button>
+      )}
+
       <div className="results">
-        <h2>🏆 Results</h2>
+        <h2><span role="img" aria-label="Trophy">🏆</span> Results</h2>
         <table className="results-table">
           <thead>
             <tr>
@@ -265,14 +312,22 @@ const MelbourneMayoralCalculator: React.FC = () => {
         </table>
       </div>
       <div className="source">
-        <h2>📰 Source</h2>
+        <h2><span role="img" aria-label="Newspaper">📰</span> Source</h2>
         <a href="https://www.theage.com.au/national/victoria/from-bike-lanes-to-business-help-what-the-lord-mayor-candidates-promise-for-melbourne-20240821-p5k41u.html" 
            target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
           The Age: What the lord mayor candidates promise for Melbourne
         </a>
+        <a href="https://www.theage.com.au/politics/victoria/voting-donations-reform-will-make-for-better-council-elections-20240829-p5k6ba.html" 
+           target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+          The Age: Voting, donations reform will make for better council elections
+        </a>
+      </div>
+      <div className="about">
+        <h2><span role="img" aria-label="Information">ℹ️</span> About </h2>
+        <p> A few fellow residents asked me for voting advice, but I realised my values might not align with theirs. So instead of just telling them who to vote for, I spun up this tool in less than 6 hours to help them make their own informed decisions.</p>
       </div>
       <div className="made-by">
-        <h2>👨🏽‍💻 Creator</h2>
+        <h2><span role="img" aria-label="Man technologist">👨🏽‍💻</span> Creator</h2>
         <p> Dan Masters </p>
         • <a href="https://ohmdee.com" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Blog</a>
         <p> • <a href="https://twitter.com/OhMDee" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Twitter</a> </p> 

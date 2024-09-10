@@ -14,6 +14,26 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     max-width: 1200px;
     margin: 0 auto;
+    padding-top: 0; /* Remove top padding to allow header to touch the top */
+}
+
+.site-header {
+    width: 100%;
+    height: 200px; /* Force the header to be 200px high */
+    display: flex;
+    justify-content: center; /* Centre the logo horizontally */
+    align-items: center; /* Centre the logo vertically */
+    overflow: hidden; /* Hide any overflow to ensure the logo fits perfectly */
+    background-color: #d0def6;
+}
+
+.header-svg {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
 }
 
 .how-to-use {
@@ -89,8 +109,9 @@ input[type="number"].error {
 
 .policy-header, .policy-row {
     display: grid;
-    grid-template-columns: 2fr 1fr repeat(7, 1fr);
+    grid-template-columns: 2fr 1fr repeat(8, 1fr);
     align-items: center;
+    gap: 10px;
     padding: 10px;
 }
 
@@ -100,26 +121,32 @@ input[type="number"].error {
     border-bottom: 1px solid #ddd;
 }
 
+.policy-header > div {
+    text-align: center;
+}
+
 .policy-row:not(:last-child) {
     border-bottom: 1px solid #ddd;
 }
 
-.policy-name {
-    color: black;
-    text-align: left;
+.policy-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
 }
 
-.policy-row .policy-name {
-    cursor: pointer;
+.policy-name {
+    grid-column: 1;
     color: blue;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 .priority-score {
+    grid-column: 2;
     text-align: center;
-    border-right: 1px solid #ddd;
 }
 
-.candidate-name, .candidate-score {
+.candidate-score {
     text-align: center;
 }
 
@@ -149,7 +176,7 @@ input[type="number"].error {
 }
 
 .results-table {
-    width: 50%;
+    width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
 }
@@ -166,32 +193,30 @@ input[type="number"].error {
 
 .results-table th:first-child,
 .results-table td:first-child {
-    width: 400px;  /* Adjust this value to fit "Anthony Koutoufides" plus some padding */
+    width: auto;  
 }
 
 .results-table th:last-child,
 .results-table td:last-child {
-    width: auto;  /* Allow the score column to take the remaining space */
+    width: auto;
 }
 
-.source, .made-by {
-    width: 46.5%;
+.source, .made-by, .about {
+    width: auto;
     background-color: #f8f9fa;
     border: 1px solid #e9ecef;
     border-radius: 8px;
     padding: 20px;
     margin-top: 30px;
-
+    margin-bottom: 30px;
 }
 
-.source h2, .made-by h2 {
+.source h2, .made-by h2, .about h2 {
     color: #495057;
     margin-top: 0;
-    margin-bottom: 15px;
 }
 
-.source a, .made-by a {
-    color: #007bff;
+.source a, .made-by a, .about a {
     text-decoration: none;
     transition: color 0.3s ease;
 }
@@ -244,58 +269,131 @@ input[type="number"].error {
     }
 
     .policy-row {
-        grid-template-columns: 1fr;
-    }
-
-    .policy-name, .priority-score, .candidate-score {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-        border-right: none;
+        flex-direction: column;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 20px;
     }
 
     .policy-name {
         font-weight: bold;
         font-size: 1.1em;
+        margin-bottom: 10px;
+    }
+
+    .expanded-policy {
+        order: 1;
+        margin-bottom: 15px;
+        background-color: #f0f0f0;
+        padding: 15px;
+        border-radius: 5px;
+    }
+
+    .priority-score {
+        order: 2;
+    }
+
+    .candidate-score {
+        order: 3;
     }
 
     .priority-score, .candidate-score {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
         background-color: #f8f8f8;
-        padding: 5px 10px;
+        padding: 10px;
         border-radius: 5px;
     }
 
     .priority-score label, .candidate-score label {
         font-weight: bold;
         margin-right: 10px;
+        flex: 1;
+    }
+
+    .priority-score input, .candidate-score input {
+        width: 60px;
+        text-align: center;
     }
 
     .mobile-only {
         display: inline;
     }
+
+    .header-svg {
+        width: 100%;
+        height: 300px; /* Increase height to crop more of the logo */
+        object-fit: cover; /* This will fill the container while maintaining the aspect ratio */
+        object-position: center; /* Center the image */
+        display: block; /* Ensures there is no extra space around the SVG */
+    }
 }
 
-/* Adjustments for larger screens */
+/* Desktop styles */
 @media (min-width: 1251px) {
-    .policy-header, .policy-row {
-        grid-template-columns: 2fr 1fr repeat(7, 1fr);
+    .policy-row {
+        display: grid;
+        grid-template-columns: 2fr 1fr repeat(8, 1fr);
+        align-items: start;
+        gap: 10px;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .policy-header {
+        display: grid;
+        grid-template-columns: 2fr 1fr repeat(8, 1fr);
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    .policy-header > div {
+        text-align: center;
     }
 
     .policy-name {
-        text-align: left;
+        grid-column: 1;
     }
 
     .priority-score {
-    text-align: center;
-    border-right: 1px solid #ddd;
+        grid-column: 2;
     }
 
-    .candidate-name, .candidate-score {
+    .candidate-score {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .candidate-score label {
+        display: none;
+    }
+
+    .priority-score input, .candidate-score input {
+        width: 60px;
         text-align: center;
     }
 
     .expanded-policy {
         grid-column: 1 / -1;
+        margin-top: 15px;
+        background-color: #f0f0f0;
+        padding: 15px;
+        border-radius: 5px;
+    }
+
+    .header-svg {
+        width: 100%;
+        height: auto;
+        max-height: 200px;
+        object-fit: contain;
+        object-position: center;
+        display: block;
     }
 }
