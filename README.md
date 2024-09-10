@@ -1,0 +1,1 @@
+A few fellow Melbourne residents asked me for voting advice, but I realised my values might not align with theirs. So instead of just telling them who to vote for, I spun up this tool in less than 6 hours to help them make their own informed decisions.
