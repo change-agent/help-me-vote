@@ -69,7 +69,7 @@ li:last-child {
     align-items: center;
 }
 
-.expand-collapse-btn {
+.expand-collapse-btn, .clear-all-btn {
     background-color: #007BFF;
     color: white;
     padding: 10px 20px;
@@ -81,6 +81,23 @@ li:last-child {
 
 .expand-collapse-btn:hover {
     background-color: #0056b3;
+}
+
+.clear-all-container {
+    padding-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.clear-all-btn {
+    background-color: #e67a82;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: right;
 }
 
 input[type="number"] {

@@ -108,30 +108,52 @@ const policyAreas = [
   "Events"
 ];
 
-type CandidateNames = keyof typeof candidates;
+const candidateNames = Object.keys(candidates);
 
 const MelbourneMayoralCalculator: React.FC = () => {
-  useEffect(() => {
-    initGA();         // Initialize Google Analytics
-    logPageView();    // Log the first page view
-  }, []);
-  
-  const [priorities, setPriorities] = useState<(number | undefined)[]>(Array(policyAreas.length).fill(undefined));
-  const [scores, setScores] = useState<(number | undefined)[][]>(Array(policyAreas.length).fill(undefined).map(() => Array(Object.keys(candidates).length).fill(undefined)));
+  const [priorities, setPriorities] = useState<(number | null)[]>(() => {
+    const savedPriorities = localStorage.getItem('priorities');
+    return savedPriorities ? JSON.parse(savedPriorities) : Array(policyAreas.length).fill(null);
+  });
+
+  const [scores, setScores] = useState<(number | null)[][]>(() => {
+    const savedScores = localStorage.getItem('scores');
+    return savedScores ? JSON.parse(savedScores) : Array(policyAreas.length).fill(null).map(() => Array(candidateNames.length).fill(null));
+  });
+
   const [expandedPolicies, setExpandedPolicies] = useState<boolean[]>(Array(policyAreas.length).fill(false));
   const [allExpanded, setAllExpanded] = useState<boolean>(false);
+
+  useEffect(() => {
+    initGA();
+    logPageView();
+      
+    const saveData = () => {
+      localStorage.setItem('priorities', JSON.stringify(priorities));
+      localStorage.setItem('scores', JSON.stringify(scores));
+    };
+
+    // Save data periodically
+    const intervalId = setInterval(saveData, 5000);
+
+    // Save data when component unmounts
+    return () => {
+      clearInterval(intervalId);
+      saveData();
+    };
+  }, [priorities, scores]);
 
   const handlePriorityChange = (index: number, newValue: string) => {
     const parsedValue = parseInt(newValue);
     const newPriorities = [...priorities];
-    newPriorities[index] = isNaN(parsedValue) ? undefined : parsedValue;
+    newPriorities[index] = isNaN(parsedValue) ? null : parsedValue;
     setPriorities(newPriorities);
   };
 
   const handleScoreChange = (policyIndex: number, candidateIndex: number, newScore: string) => {
     const parsedScore = parseInt(newScore);
     const newScores = [...scores];
-    newScores[policyIndex][candidateIndex] = isNaN(parsedScore) ? undefined : parsedScore;
+    newScores[policyIndex][candidateIndex] = isNaN(parsedScore) ? null : parsedScore;
     setScores(newScores);
   };
 
@@ -147,23 +169,22 @@ const MelbourneMayoralCalculator: React.FC = () => {
     setAllExpanded(!allExpanded);
   };
 
+  const resetData = () => {
+    localStorage.removeItem('priorities');
+    localStorage.removeItem('scores');
+    setPriorities(Array(policyAreas.length).fill(null));
+    setScores(Array(policyAreas.length).fill(null).map(() => Array(candidateNames.length).fill(null)));
+  };
+
   const calculateTotalScores = useMemo(() => {
-    const totalScores: Record<CandidateNames, number> = {
-      "Nick Reece (Independent)": 0,
-      "Arron Wood (Independent)": 0,
-      "Roxane Ingleton (Greens)": 0,
-      "Jamal Hakim (Independent)": 0,
-      "Anthony Koutoufides (Independent)": 0,
-      "Phil Reed (Labor)": 0,
-      "Gary Morgan (Independent)": 0,
-      "Mariam Riza (Liberal)": 0,
-    };
+    const totalScores: Record<string, number> = Object.fromEntries(
+      candidateNames.map(candidate => [candidate, 0])
+    );
 
     scores.forEach((policyScores, policyIndex) => {
       policyScores.forEach((score, candidateIndex) => {
-        if (score !== undefined && priorities[policyIndex] !== undefined) {
-          const candidateName = Object.keys(candidates)[candidateIndex] as CandidateNames;
-          totalScores[candidateName] += score * priorities[policyIndex];
+        if (score !== null && priorities[policyIndex] !== null) {
+          totalScores[candidateNames[candidateIndex]] += score * priorities[policyIndex]!;
         }
       });
     });
@@ -239,7 +260,7 @@ const MelbourneMayoralCalculator: React.FC = () => {
         <div className="policy-header">
           <div>POLICY AREA</div>
           <div>Priority Score</div>
-          {Object.keys(candidates).map((candidate) => (
+          {candidateNames.map((candidate) => (
             <div key={candidate}>{candidate}</div>
           ))}
         </div>
@@ -249,22 +270,26 @@ const MelbourneMayoralCalculator: React.FC = () => {
               {expandedPolicies[policyIndex] ? `▲ ${policyArea}` : `▼ ${policyArea}`}
             </div>
             <div className="priority-score">
-              <label className="mobile-only">Priority Score</label>
+              <label htmlFor={`priority-${policyIndex}`} className="mobile-only">Priority Score</label>
               <input
+                id={`priority-${policyIndex}`}
+                name={`priority-${policyIndex}`}
                 type="number"
-                value={priorities[policyIndex] !== undefined ? priorities[policyIndex] : ''}
+                value={priorities[policyIndex] !== null ? priorities[policyIndex] : ''}
                 onChange={(e) => handlePriorityChange(policyIndex, e.target.value)}
-                className={priorities[policyIndex] === undefined ? 'error' : ''}
+                className={priorities[policyIndex] === null ? 'error' : ''}
               />
             </div>
             {Object.keys(candidates).map((candidate, candidateIndex) => (
               <div key={candidateIndex} className="candidate-score">
-                <label className="mobile-only">{candidate}</label>
+                <label htmlFor={`score-${policyIndex}-${candidateIndex}`}  className="mobile-only">{candidate}</label>
                 <input
+                  id={`score-${policyIndex}-${candidateIndex}`}
+                  name={`score-${policyIndex}-${candidateIndex}`}
                   type="number"
-                  value={scores[policyIndex][candidateIndex] !== undefined ? scores[policyIndex][candidateIndex] : ''}
+                  value={scores[policyIndex][candidateIndex] !== null ? scores[policyIndex][candidateIndex] : ''}
                   onChange={(e) => handleScoreChange(policyIndex, candidateIndex, e.target.value)}
-                  className={scores[policyIndex][candidateIndex] === undefined ? 'error' : ''}
+                  className={scores[policyIndex][candidateIndex] === null ? 'error' : ''}
                 />
               </div>
             ))}
@@ -291,6 +316,10 @@ const MelbourneMayoralCalculator: React.FC = () => {
             </svg>
           </button>
       )}
+
+      <div className="clear-all-container">
+          <button onClick={resetData} className="clear-all-btn">Reset Scores</button>
+      </div>
 
       <div className="results">
         <h2><span role="img" aria-label="Trophy">🏆</span> Results</h2>
