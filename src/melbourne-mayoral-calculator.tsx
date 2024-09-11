@@ -324,7 +324,7 @@ const MelbourneMayoralCalculator: React.FC = () => {
       </div>
       <div className="about">
         <h2><span role="img" aria-label="Information">ℹ️</span> About </h2>
-        <p> A few fellow residents asked me for voting advice, but I realised it's possible we have different ideas on various issues. Instead of just telling them who to vote for, I spun up this tool in around 6 hours to help them make their own decisions.</p>
+        <p> A few fellow residents asked me for voting advice, but I realised it's possible we have different ideas on various issues. Instead of just telling them who to vote for, I created this tool to help them make their own decisions.</p>
       </div>
       <div className="made-by">
         <h2><span role="img" aria-label="Man technologist">👨🏽‍💻</span> Creator</h2>
