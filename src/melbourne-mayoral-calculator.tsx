@@ -23,7 +23,7 @@ const policyDetails: Record<keyof typeof candidates, string[]> = {
     "Bulk-buy renewable electricity (MPower), emissions reduction plan.",
     "Ban on hire e-scooters.",
     "Policy not yet released, possible conflict with running mate who has opposed bike lanes",
-    "Install designer decorative lighting in 20 laneways."  
+    "Sell Regent Theatre to fund 'City Solstice Winter Festival'; install designer decorative lighting in 20 laneways."
   ],
   "Arron Wood (Independent)": [
     "No commitment to real-time donation disclosure this time.",
@@ -216,22 +216,22 @@ const MelbourneMayoralCalculator: React.FC = () => {
         <VoteSmartLogo className="header-svg" />
       </header>
       <h1>
-        <span role="img" aria-label="Ballot box">🗳️</span> Your Voting Guide to the 2024 Melbourne Mayoral Election
+        <span role="img" aria-label="Ballot box">🗳️</span> 2024 Melbourne Mayoral Election Voting Guide
       </h1>
       <div className="how-to-use">
         <h2><span role="img" aria-label="Question mark">❓</span> How to Use</h2>
-        <ul>
-          <li><strong>1. Prioritise Your Issues</strong>: Assign a Priority Score weight (0-10) to each policy area that matters most to you.</li>
-          <li><strong>2. Rate Candidate Policies</strong>: Score each candidate's policy (0-10) based on how closely it aligns with your personal views.</li>
-          <li><strong>3. Explore Detailed Policies</strong>: Click on any policy area to dive deeper into each candidate's stance and proposals.</li>
-          <li><strong>4. Get Your Best Match</strong>: The tool continually calculates a ranking score for each candidate, helping you identify your ideal match based on your input.</li>
-        </ul>
+        <ol>
+          <li><strong>Prioritise Issues</strong>: Assign scores (0-10) to policy areas.</li>
+          <li><strong>Explore Details</strong>: Learn each candidate’s stances in-depth.</li>
+          <li><strong>Rate  Policies</strong>: Score candidates' specific policies (0-10) on how they align with your views.</li>
+          <li><strong>Get Your Best Match</strong>: The tool ranks candidates based on your choices.</li>
+        </ol>
       </div>
 
       <div className="expand-all-container">
         <h2><span role="img" aria-label="Memo">📝</span> Policies</h2>
         <button onClick={toggleAllPolicies} className="expand-collapse-btn">
-          {allExpanded ? "Collapse All" : "Expand All"}
+          {allExpanded ? "Collapse All Info" : "Expand All Info"}
         </button>
       </div>
 
@@ -246,7 +246,7 @@ const MelbourneMayoralCalculator: React.FC = () => {
         {policyAreas.map((policyArea, policyIndex) => (
           <div key={policyArea} className="policy-row">
             <div className="policy-name" onClick={() => togglePolicy(policyIndex)}>
-              {expandedPolicies[policyIndex] ? `- ${policyArea}` : `+ ${policyArea}`}
+              {expandedPolicies[policyIndex] ? `▲ ${policyArea}` : `▼ ${policyArea}`}
             </div>
             <div className="priority-score">
               <label className="mobile-only">Priority Score</label>
@@ -318,11 +318,13 @@ const MelbourneMayoralCalculator: React.FC = () => {
            target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline"> The Age: What the lord mayor candidates promise for Melbourne </a> </li> 
           <li> <a href="https://www.theage.com.au/politics/victoria/voting-donations-reform-will-make-for-better-council-elections-20240829-p5k6ba.html" 
            target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline"> The Age: Voting, donations reform will make for better council elections </a> </li>
+           <li> <a href="https://www.theage.com.au/culture/theatre/the-idea-that-selling-off-the-regent-will-help-the-arts-is-laughable-20240909-p5k8yp.html" 
+           target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline"> The Age: The idea that selling off the Regent will help the arts is laughable </a> </li>
         </ul>
       </div>
       <div className="about">
         <h2><span role="img" aria-label="Information">ℹ️</span> About </h2>
-        <p> A few fellow residents asked me for voting advice, but I realised my values might not align with theirs. Instead of just telling them who to vote for, I spun up this tool in less than 6 hours to help them make their own informed decisions.</p>
+        <p> A few fellow residents asked me for voting advice, but I realised it's possible we have different ideas on various issues. Instead of just telling them who to vote for, I spun up this tool in around 6 hours to help them make their own decisions.</p>
       </div>
       <div className="made-by">
         <h2><span role="img" aria-label="Man technologist">👨🏽‍💻</span> Creator</h2>

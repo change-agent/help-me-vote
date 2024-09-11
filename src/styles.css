@@ -137,10 +137,12 @@ input[type="number"].error {
 .priority-score {
     grid-column: 2;
     text-align: center;
+    width: 95%;
 }
 
 .candidate-score {
     text-align: center;
+    width: 95%;
 }
 
 .expanded-policy {
