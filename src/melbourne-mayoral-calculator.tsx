@@ -242,10 +242,20 @@ const MelbourneMayoralCalculator: React.FC = () => {
       <div className="how-to-use">
         <h2><span role="img" aria-label="Question mark">❓</span> How to Use</h2>
         <ol>
-          <li><strong>Prioritise Issues</strong>: Assign scores (0-10) to policy areas.</li>
-          <li><strong>Explore Details</strong>: Learn each candidate’s stances in-depth.</li>
-          <li><strong>Rate  Policies</strong>: Score candidates' specific policies (0-10) on how they align with your views.</li>
-          <li><strong>Get Your Best Match</strong>: The tool ranks candidates based on your choices.</li>
+            <li><strong>Prioritise Issues</strong>: Assign importance scores (0-10) to policy areas.
+                <ul>
+                    <li>0 = Unimportant</li>
+                    <li>10 = Most important</li>
+                </ul>
+            </li>
+            <li><strong>Explore Details</strong>: Learn each candidate's stances in-depth.</li>
+            <li><strong>Rate Policies</strong>: Score candidates' specific policies (0-10) on how they align with your views.
+                <ul>
+                    <li>0 = Least aligned</li>
+                    <li>10 = Most aligned</li>
+                </ul>
+            </li>
+            <li><strong>Get Your Best Match</strong>: The tool ranks candidates based on your choices.</li>
         </ol>
       </div>
 
