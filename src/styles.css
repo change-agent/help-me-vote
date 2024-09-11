@@ -103,7 +103,6 @@ input[type="number"].error {
 .policy-header, .policy-row {
     display: grid;
     grid-template-columns: 2fr 1fr repeat(8, 1fr);
-    align-items: center;
     gap: 10px;
     padding: 10px;
 }
@@ -112,10 +111,6 @@ input[type="number"].error {
     font-weight: bold;
     background-color: #f1f1f1;
     border-bottom: 1px solid #ddd;
-}
-
-.policy-header > div {
-    text-align: center;
 }
 
 .policy-row:not(:last-child) {
@@ -132,6 +127,7 @@ input[type="number"].error {
     color: blue;
     cursor: pointer;
     font-weight: bold;
+
 }
 
 .priority-score {
@@ -350,6 +346,10 @@ input[type="number"].error {
 
     .policy-header > div {
         text-align: center;
+    }
+
+    .policy-header > div:first-child {
+        text-align: left;  /* Left-align "Policy Area" */
     }
 
     .policy-name {

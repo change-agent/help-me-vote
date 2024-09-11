@@ -237,7 +237,7 @@ const MelbourneMayoralCalculator: React.FC = () => {
 
       <div className="table-container">
         <div className="policy-header">
-          <div>Policy Area</div>
+          <div>POLICY AREA</div>
           <div>Priority Score</div>
           {Object.keys(candidates).map((candidate) => (
             <div key={candidate}>{candidate}</div>
