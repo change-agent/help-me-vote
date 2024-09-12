@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { initGA, logPageView } from './analytics';
 import { ReactComponent as VoteSmartLogo } from './assets/VoteSmartLogo.svg';
 import './styles.css';
@@ -125,37 +125,45 @@ const MelbourneMayoralCalculator: React.FC = () => {
   const [allExpanded, setAllExpanded] = useState<boolean>(false);
 
   useEffect(() => {
-    initGA();
-    logPageView();
-      
-    const saveData = () => {
-      localStorage.setItem('priorities', JSON.stringify(priorities));
-      localStorage.setItem('scores', JSON.stringify(scores));
-    };
+    initGA(logPageView);
+  }, []); // This effect runs once on mount
 
-    // Save data periodically
-    const intervalId = setInterval(saveData, 5000);
+  useEffect(() => {
+    initGA(logPageView);
+  }, []);
 
-    // Save data when component unmounts
-    return () => {
-      clearInterval(intervalId);
-      saveData();
-    };
+  const saveData = useCallback(() => {
+    localStorage.setItem('priorities', JSON.stringify(priorities));
+    localStorage.setItem('scores', JSON.stringify(scores));
   }, [priorities, scores]);
 
-  const handlePriorityChange = (index: number, newValue: string) => {
-    const parsedValue = parseInt(newValue);
-    const newPriorities = [...priorities];
-    newPriorities[index] = isNaN(parsedValue) ? null : parsedValue;
-    setPriorities(newPriorities);
-  };
+  useEffect(() => {
+    const intervalId = setInterval(saveData, 5000);
+    return () => clearInterval(intervalId);
+  }, [saveData]);
 
-  const handleScoreChange = (policyIndex: number, candidateIndex: number, newScore: string) => {
+  // Save data immediately when priorities or scores change
+  useEffect(() => {
+    saveData();
+  }, [priorities, scores, saveData]);
+
+  const handlePriorityChange = useCallback((index: number, newValue: string) => {
+    const parsedValue = parseInt(newValue);
+    setPriorities(prev => {
+      const newPriorities = [...prev];
+      newPriorities[index] = isNaN(parsedValue) ? null : parsedValue;
+      return newPriorities;
+    });
+  }, []);
+
+  const handleScoreChange = useCallback((policyIndex: number, candidateIndex: number, newScore: string) => {
     const parsedScore = parseInt(newScore);
-    const newScores = [...scores];
-    newScores[policyIndex][candidateIndex] = isNaN(parsedScore) ? null : parsedScore;
-    setScores(newScores);
-  };
+    setScores(prev => {
+      const newScores = prev.map(row => [...row]);
+      newScores[policyIndex][candidateIndex] = isNaN(parsedScore) ? null : parsedScore;
+      return newScores;
+    });
+  }, []);
 
   const togglePolicy = (index: number) => {
     const newExpandedPolicies = [...expandedPolicies];
@@ -169,12 +177,24 @@ const MelbourneMayoralCalculator: React.FC = () => {
     setAllExpanded(!allExpanded);
   };
 
-  const resetData = () => {
+  const resetData = useCallback(() => {
+    const newPriorities = Array(policyAreas.length).fill(null);
+    const newScores = Array(policyAreas.length).fill(null).map(() => Array(candidateNames.length).fill(null));
+    
     localStorage.removeItem('priorities');
     localStorage.removeItem('scores');
-    setPriorities(Array(policyAreas.length).fill(null));
-    setScores(Array(policyAreas.length).fill(null).map(() => Array(candidateNames.length).fill(null)));
-  };
+    
+    setPriorities(newPriorities);
+    setScores(newScores);
+    setExpandedPolicies(Array(policyAreas.length).fill(false));
+    setAllExpanded(false);
+    
+    // Force re-render
+    setTimeout(() => {
+      setPriorities([...newPriorities]);
+      setScores([...newScores]);
+    }, 0);
+  }, []);
 
   const calculateTotalScores = useMemo(() => {
     const totalScores: Record<string, number> = Object.fromEntries(
