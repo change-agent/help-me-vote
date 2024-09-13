@@ -209,7 +209,7 @@ input[type="number"].error {
     width: auto;
 }
 
-.source, .made-by, .about {
+.source, .made-by, .about, .dates {
     width: auto;
     background-color: #f8f9fa;
     border: 1px solid #e9ecef;
@@ -219,7 +219,7 @@ input[type="number"].error {
     margin-bottom: 30px;
 }
 
-.source h2, .made-by h2, .about h2 {
+.source h2, .made-by h2, .about h2, .dates  h2 {
     color: #495057;
     margin-top: 0;
 }

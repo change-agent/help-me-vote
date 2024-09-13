@@ -370,6 +370,16 @@ const MelbourneMayoralCalculator: React.FC = () => {
           </tbody>
         </table>
       </div>
+      <div className="dates">
+        <h2><span role="img" aria-label="Calendar">🗓️</span> Dates</h2>
+        <ul> 
+          <li> <strong> Tuesday 17 September </strong>: Nominations to be a Council election candidate close at 12 noon. </li>
+          <li> <strong> Monday 7 October - Thursday 10 October </strong>: Victorian Electoral Commission will post your ballot for you to vote. </li>
+          <li> <strong> Friday 25 October </strong>: Last day to return your completed ballot papers in the pre-paid envelope before 6pm. </li>
+          <li> <strong> Saturday 26 October </strong>: Elections day. There will be no voting on elections day, as it is a postal vote only. Counting the votes will begin on this day. </li>
+        </ul>
+      </div>
+
       <div className="source">
         <h2><span role="img" aria-label="Newspaper">📰</span> Sources</h2>
         <ul>
@@ -379,6 +389,8 @@ const MelbourneMayoralCalculator: React.FC = () => {
            target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline"> The Age: Voting, donations reform will make for better council elections </a> </li>
            <li> <a href="https://www.theage.com.au/culture/theatre/the-idea-that-selling-off-the-regent-will-help-the-arts-is-laughable-20240909-p5k8yp.html" 
            target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline"> The Age: The idea that selling off the Regent will help the arts is laughable </a> </li>
+            <li> <a href="https://elections.melbourne.vic.gov.au/about-the-elections/key-dates-for-enrolment-and-voting/" 
+           target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline"> City of Melbourne: Key dates for the Melbourne City Council 2024 elections </a> </li>
         </ul>
       </div>
       <div className="about">
