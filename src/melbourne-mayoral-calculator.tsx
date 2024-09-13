@@ -373,10 +373,10 @@ const MelbourneMayoralCalculator: React.FC = () => {
       <div className="dates">
         <h2><span role="img" aria-label="Calendar">🗓️</span> Dates</h2>
         <ul> 
-          <li> <strong> Tuesday 17 September </strong>: Nominations to be a Council election candidate close at 12 noon. </li>
-          <li> <strong> Monday 7 October - Thursday 10 October </strong>: Victorian Electoral Commission will post your ballot for you to vote. </li>
-          <li> <strong> Friday 25 October </strong>: Last day to return your completed ballot papers in the pre-paid envelope before 6pm. </li>
-          <li> <strong> Saturday 26 October </strong>: Elections day. There will be no voting on elections day, as it is a postal vote only. Counting the votes will begin on this day. </li>
+          <li> <strong> Tuesday 17 September</strong>: Nominations to be a Council election candidate close at 12 noon. </li>
+          <li> <strong> Monday 7 October - Thursday 10 October</strong>: Victorian Electoral Commission will post your ballot for you to vote. </li>
+          <li> <strong> Friday 25 October</strong>: Last day to return your completed ballot papers in the pre-paid envelope before 6pm. </li>
+          <li> <strong> Saturday 26 October</strong>: Elections day. There will be no voting on elections day, as it is a postal vote only. Counting the votes will begin on this day. </li>
         </ul>
       </div>
 
